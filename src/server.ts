@@ -95,6 +95,7 @@ export default class Server implements Party.Server {
     if (!this.votes[questionId]) {
       this.votes[questionId] = {};
     }
+
     this.votes[questionId][userId] = answerId;
   }
 
@@ -102,16 +103,20 @@ export default class Server implements Party.Server {
   getResults(questionId: string): Record<string, number> {
     const votes = this.votes[questionId];
     const results: Record<string, number> = {};
+  
     if (!votes) {
       return results;
     }
+
     for (const userId in votes) {
       const answerId = votes[userId];
+
       if (!results[answerId]) {
         results[answerId] = 0;
       }
       results[answerId] += 1;
     }
+  
     return results;
   }
 
@@ -119,9 +124,11 @@ export default class Server implements Party.Server {
   getAllResults(): Record<string, Record<string, number>> {
     const questionsIds = Object.keys(this.votes);
     const value: Record<string, Record<string, number>> = {};
+  
     for (const questionId of questionsIds) {
       value[questionId] = this.getResults(questionId);
     }
+
     return value;
   }
 
@@ -167,7 +174,6 @@ export default class Server implements Party.Server {
     const msg = JSON.parse(message);
   
     if (msg.type === "vote") {
-      console.log("Voting", msg);
       this.vote(msg.questionId, msg.userId, msg.optionId);
       this.room.broadcast(
         JSON.stringify({
@@ -180,12 +186,10 @@ export default class Server implements Party.Server {
     }
   
     if (msg.type === "clear") {
-      console.log("Clearing Votes");
       this.votes = {};
     }
 
     if (msg.type === "navigation") {
-      console.log("Navigating");
       this.page = msg.value;
       this.room.broadcast(
         JSON.stringify({ type: "navigation", value: `${this.page}` }),
