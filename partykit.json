@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.partykit.io/schema.json",
-  "name": "test-partykit",
+  "name": "survey-sync-backend",
   "main": "src/server.ts",
   "compatibilityDate": "2024-03-19",
   "serve": {
