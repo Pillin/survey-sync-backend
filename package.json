@@ -1,5 +1,5 @@
 {
-  "name": "test-partykit",
+  "name": "survey-sync-backend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
